@@ -1,0 +1,40 @@
+# TurboFrame Environment
+.env
+.env.local
+.env.*.local
+
+# Dependencies
+/vendor/
+/node_modules/
+
+# Storage
+/storage/cache/*
+/storage/logs/*
+/storage/views/*
+/storage/nitrous/*
+!storage/cache/.gitkeep
+!storage/logs/.gitkeep
+!storage/views/.gitkeep
+!storage/nitrous/.gitkeep
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build
+/public/assets/css/app.css
+*.map
+
+# Testing
+/coverage/
+.phpunit.result.cache
+
+# Misc
+*.log
+*.bak

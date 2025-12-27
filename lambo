@@ -1,0 +1,30 @@
+<?php
+
+define('TURBO_START', microtime(true));
+define('BASE_PATH', __DIR__);
+
+$autoloadPaths = [
+    __DIR__ . '/vendor/autoload.php',
+    __DIR__ . '/../../autoload.php',
+];
+
+$autoloaderFound = false;
+foreach ($autoloadPaths as $autoloadPath) {
+    if (file_exists($autoloadPath)) {
+        require $autoloadPath;
+        $autoloaderFound = true;
+        break;
+    }
+}
+
+if (!$autoloaderFound) {
+    require __DIR__ . '/src/Core/Autoloader.php';
+    TurboFrame\Core\Autoloader::register();
+}
+
+use TurboFrame\Console\Kernel;
+
+$kernel = new Kernel();
+$status = $kernel->handle($argv);
+
+exit($status);

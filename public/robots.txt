@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /application/
+Disallow: /src/
+
+Sitemap: http://localhost:7000/sitemap.xml

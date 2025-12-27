@@ -1,0 +1,12 @@
+{
+    "name": "turboframe-app",
+    "version": "1.0.0",
+    "description": "TurboFrame Application",
+    "scripts": {
+        "dev": "npx tailwindcss -i ./tailwind/input.css -o ./public/assets/css/app.css --watch",
+        "build": "npx tailwindcss -i ./tailwind/input.css -o ./public/assets/css/app.css --minify"
+    },
+    "devDependencies": {
+        "tailwindcss": "^3.4.0"
+    }
+}
