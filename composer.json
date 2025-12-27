@@ -1,19 +1,22 @@
 {
-    "name": "turbo/lambostarter",
-    "description": "TurboFrame - Fast PHP Framework",
-    "type": "framework",
+    "name": "turboframe/lambostarter",
+    "description": "TurboFrame: The Fast PHP Framework for Students & Modern Developers. Built for speed, PWA ready, and easy to use.",
+    "type": "project",
     "keywords": [
-        "framework",
         "php",
+        "framework",
         "turboframe",
-        "fast",
+        "lambo",
+        "fast php",
+        "student-friendly",
+        "pwa",
         "mvc"
     ],
-    "license": "MIT",
+    "license": "GPL-3.0-or-later",
     "authors": [
         {
-            "name": "TurboFrame Community",
-            "email": "community@turboframe.dev"
+            "name": "Rizko Imsar",
+            "homepage": "https://turboframe.my.id"
         }
     ],
     "require": {
