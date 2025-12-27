@@ -67,7 +67,7 @@ public function index() {
 
 ## 📄 License
 
-TurboFrame is open-sourced software licensed under the [MIT license](LICENSE).
+TurboFrame is open-sourced software licensed under the [GNU GPL license](LICENSE.txt).
 
 <p align="center">
   Made with ⚡ by <b>Rizko Imsar</b> & TurboFrame Community
