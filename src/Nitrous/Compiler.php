@@ -101,21 +101,29 @@ class Compiler
         $output = "<?php\n\n";
         $output .= "declare(strict_types=1);\n\n";
 
-        $processedNamespaces = [];
-
         foreach ($this->includedFiles as $file) {
             $content = file_get_contents($file);
             
+            // Extract namespace
+            $namespace = '';
+            if (preg_match('/^namespace\s+([^;]+);/m', $content, $matches)) {
+                $namespace = trim($matches[1]);
+            }
+
+            // Clean content
             $content = preg_replace('/<\?php\s*/', '', $content);
             $content = preg_replace('/declare\s*\([^)]+\)\s*;/', '', $content);
+            $content = preg_replace('/^namespace\s+[^;]+;/m', '', $content);
             $content = preg_replace('/^require[^;]+;$/m', '', $content);
             $content = preg_replace('/^include[^;]+;$/m', '', $content);
             
             $content = trim($content);
             
             if (!empty($content)) {
-                $output .= "\n// File: " . basename($file) . "\n";
+                $output .= "\nnamespace {$namespace} {\n";
+                $output .= "// File: " . basename($file) . "\n";
                 $output .= $content . "\n";
+                $output .= "}\n";
             }
         }
 
