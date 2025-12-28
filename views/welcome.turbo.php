@@ -129,7 +129,7 @@
 
                 <div class="md:text-right">
                     <p class="text-[10px] uppercase tracking-widest text-gray-400 font-bold mb-2">Source Code</p>
-                    <a href="https://github.com/rizko77" target="_blank" class="text-sm font-medium text-black hover:underline">github.com/rizko77</a>
+                    <a href="https://github.com/rizko77/turboframe" target="_blank" class="text-sm font-medium text-black hover:underline">github.com/rizko77/turboframe</a>
                 </div>
             </div>
         </footer>

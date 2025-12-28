@@ -14,6 +14,8 @@ class QueryBuilder
     private ?int $offset = null;
     private array $joins = [];
     private array $bindings = [];
+    private ?int $cacheTtl = null;
+    private ?string $cacheKey = null;
 
     public function __construct(Connection $connection, string $table)
     {
@@ -103,6 +105,13 @@ class QueryBuilder
         return $this;
     }
 
+    public function cache(int $seconds, ?string $key = null): self
+    {
+        $this->cacheTtl = $seconds;
+        $this->cacheKey = $key;
+        return $this;
+    }
+
     public function join(string $table, string $first, string $operator, string $second): self
     {
         $this->joins[] = "INNER JOIN {$table} ON {$first} {$operator} {$second}";
@@ -123,7 +132,19 @@ class QueryBuilder
 
     public function get(): array
     {
-        return $this->connection->query($this->toSql(), $this->bindings);
+        $sql = $this->toSql();
+        $bindings = $this->bindings;
+
+        if ($this->cacheTtl !== null) {
+            $cache = \app(\TurboFrame\Cache\OPCacheManager::class);
+            $key = $this->cacheKey ?? 'db_query_' . md5($sql . serialize($bindings));
+            
+            return $cache->cache($key, function() use ($sql, $bindings) {
+                return $this->connection->query($sql, $bindings);
+            }, $this->cacheTtl);
+        }
+
+        return $this->connection->query($sql, $bindings);
     }
 
     public function first(): ?array

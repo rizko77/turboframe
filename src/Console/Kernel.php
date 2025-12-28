@@ -11,6 +11,7 @@ use TurboFrame\Console\Commands\MakeMiddlewareCommand;
 use TurboFrame\Console\Commands\MigrateCommand;
 use TurboFrame\Console\Commands\CacheClearCommand;
 use TurboFrame\Console\Commands\RouteListCommand;
+use TurboFrame\Console\Commands\OptimizeCommand;
 
 class Kernel
 {
@@ -35,6 +36,7 @@ class Kernel
             'migrate' => MigrateCommand::class,
             'cache:clear' => CacheClearCommand::class,
             'route:list' => RouteListCommand::class,
+            'optimize' => OptimizeCommand::class,
         ];
     }
 
@@ -92,6 +94,7 @@ class Kernel
             'migrate' => 'Run database migrations',
             'cache:clear' => 'Clear application cache',
             'route:list' => 'List all registered routes',
+            'optimize' => 'Optimize application performance',
         ];
 
         foreach ($commandDescriptions as $name => $description) {

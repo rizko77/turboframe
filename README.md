@@ -19,7 +19,7 @@
 Get started in seconds using Composer:
 
 ```bash
-composer create-project turbo/lambostarter my-app
+composer create-project turboframe/lambostarter my-app
 cd my-app
 php lambo serve
 ```
@@ -67,7 +67,7 @@ public function index() {
 
 ## 📄 License
 
-TurboFrame is open-sourced software licensed under the [GNU GPL license](LICENSE.txt).
+TurboFrame is open-sourced software licensed under the [GPL-3.0-or-later license](LICENSE.txt).
 
 <p align="center">
   Made with ⚡ by <b>Rizko Imsar</b> & TurboFrame Community

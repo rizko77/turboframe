@@ -26,8 +26,8 @@ if (getenv('APP_ENV') === 'production') {
     ini_set('error_reporting', E_ALL & ~E_DEPRECATED & ~E_STRICT);
 }
 
-// Optimize session handling (only if session not started yet)
-if (session_status() === PHP_SESSION_NONE) {
+// Optimize session handling (only if session not started yet and not in CLI)
+if (PHP_SAPI !== 'cli' && session_status() === PHP_SESSION_NONE && !headers_sent()) {
     ini_set('session.use_strict_mode', '1');
     ini_set('session.use_cookies', '1');
     ini_set('session.use_only_cookies', '1');

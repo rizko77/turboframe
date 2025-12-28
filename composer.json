@@ -32,7 +32,10 @@
         "psr-4": {
             "TurboFrame\\": "src/",
             "App\\": "application/"
-        }
+        },
+        "files": [
+            "src/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

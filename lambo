@@ -22,6 +22,10 @@ if (!$autoloaderFound) {
     TurboFrame\Core\Autoloader::register();
 }
 
+if (file_exists(__DIR__ . '/src/helpers.php')) {
+    require_once __DIR__ . '/src/helpers.php';
+}
+
 use TurboFrame\Console\Kernel;
 
 $kernel = new Kernel();

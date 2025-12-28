@@ -9,6 +9,7 @@ class Engine
     private array $shared = [];
     private array $sections = [];
     private array $sectionStack = [];
+    private array $cacheStack = [];
     private ?string $layout = null;
     
     // Static cache for compiled views (in-memory for current request)
@@ -103,6 +104,8 @@ class Engine
             '/@foreach\s*\((.+)\)/' => '<?php foreach($1): ?>',
             '/@endforeach/' => '<?php endforeach; ?>',
             '/@csrf/' => '<?php echo csrf_field(); ?>',
+            '/@cache\s*\((.+)\)/' => '<?php if($this->startCacheFragment($1)): ?>',
+            '/@endcache/' => '<?php $this->endCacheFragment(); endif; ?>',
             '/@php/' => '<?php ',
             '/@endphp/' => ' ?>',
         ];
@@ -170,6 +173,32 @@ class Engine
     public function yieldSection(string $name, string $default = ''): string
     {
         return $this->sections[$name] ?? $default;
+    }
+
+    public function startCacheFragment(string $key, int $ttl = 3600): bool
+    {
+        $cache = \app(\TurboFrame\Cache\OPCacheManager::class);
+        $content = $cache->get('fragment_' . $key);
+
+        if ($content !== null) {
+            echo $content;
+            return false;
+        }
+
+        $this->cacheStack[] = ['key' => $key, 'ttl' => $ttl];
+        ob_start();
+        return true;
+    }
+
+    public function endCacheFragment(): void
+    {
+        $fragment = array_pop($this->cacheStack);
+        $content = ob_get_clean();
+        
+        $cache = \app(\TurboFrame\Cache\OPCacheManager::class);
+        $cache->put('fragment_' . $fragment['key'], $content, $fragment['ttl']);
+        
+        echo $content;
     }
 
     private function getCachePath(string $view): string
