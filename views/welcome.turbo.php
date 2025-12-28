@@ -91,7 +91,7 @@
 
         <main class="py-24 md:py-40">
             <div class="mb-6">
-                <span class="text-xs font-bold tracking-widest text-gray-400 uppercase">Version 1.0.3 Stable</span>
+                <span class="text-xs font-bold tracking-widest text-gray-400 uppercase">Version 1.0.4 Stable</span>
             </div>
 
             <h1 class="text-5xl md:text-6xl font-bold tracking-tighter text-black mb-6">
