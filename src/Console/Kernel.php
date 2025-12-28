@@ -12,6 +12,7 @@ use TurboFrame\Console\Commands\MigrateCommand;
 use TurboFrame\Console\Commands\CacheClearCommand;
 use TurboFrame\Console\Commands\RouteListCommand;
 use TurboFrame\Console\Commands\OptimizeCommand;
+use TurboFrame\Console\Commands\ServeSwooleCommand;
 
 class Kernel
 {
@@ -37,6 +38,7 @@ class Kernel
             'cache:clear' => CacheClearCommand::class,
             'route:list' => RouteListCommand::class,
             'optimize' => OptimizeCommand::class,
+            'serve:swoole' => ServeSwooleCommand::class,
         ];
     }
 

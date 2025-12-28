@@ -1,0 +1,24 @@
+version: "3"
+
+rpc:
+  listen: tcp://127.0.0.1:6001
+
+server:
+  command: "php worker.php"
+  relay: pipes
+
+http:
+  address: :8080
+  middleware: ["gzip", "static"]
+  static:
+    dir: "public"
+    forbid: [".php", ".htaccess"]
+  pool:
+    num_workers: 4
+    max_jobs: 0
+    allocate_timeout: 60s
+    destroy_timeout: 60s
+
+logs:
+  mode: development
+  level: debug

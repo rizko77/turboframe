@@ -91,7 +91,7 @@
 
         <main class="py-24 md:py-40">
             <div class="mb-6">
-                <span class="text-xs font-bold tracking-widest text-gray-400 uppercase">Version 1.0.0 Stable</span>
+                <span class="text-xs font-bold tracking-widest text-gray-400 uppercase">Version 1.0.3 Stable</span>
             </div>
 
             <h1 class="text-5xl md:text-6xl font-bold tracking-tighter text-black mb-6">
@@ -99,8 +99,9 @@
             </h1>
 
             <p class="text-gray-600 text-lg md:text-xl max-w-xl mb-10 leading-relaxed">
-                Minimalist PHP framework designed for performance and clarity. 
+                PHP framework designed for performance and clarity. 
                 Focus on your code, not the configuration.
+                Hidupp PHP!
             </p>
 
             <div class="flex flex-col sm:flex-row gap-4">

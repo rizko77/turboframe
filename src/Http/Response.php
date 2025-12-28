@@ -138,7 +138,23 @@ class Response
             }
         }
 
-        echo $this->body;
+        // Automatic Minification in Production/Nitrous Mode
+        $body = $this->body;
+        $isHtml = str_contains($this->headers['Content-Type'] ?? '', 'text/html');
+        
+        if ($isHtml && file_exists(dirname(dirname(__DIR__)) . '/storage/nitrous/state.php')) {
+            $body = preg_replace([
+                '/<!--(.|\s)*?-->/', // Remove comments
+                '/\s+/',           // Replace multiple spaces with one
+                '/(\r?\n)/',        // Remove new lines
+            ], [
+                '',
+                ' ',
+                ''
+            ], $body);
+        }
+
+        echo $body;
         $this->sent = true;
     }
 

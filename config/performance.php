@@ -16,6 +16,11 @@ if (function_exists('opcache_get_status')) {
         ini_set('opcache.max_accelerated_files', '10000');
         ini_set('opcache.revalidate_freq', '60');
         ini_set('opcache.fast_shutdown', '1');
+        
+        // 🚀 ACTIVATE JIT (Just-In-Time) COMPILER
+        // 1255: Optimized for most scenarios (Function/Tracing)
+        ini_set('opcache.jit', '1255');
+        ini_set('opcache.jit_buffer_size', '100M');
     }
 }
 

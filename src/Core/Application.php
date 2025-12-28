@@ -15,14 +15,19 @@ class Application
     private bool $booted = false;
     private float $startTime;
     private static ?array $envCache = null;
+    private static bool $stateLoaded = false;
 
     private function __construct()
     {
         self::$instance = $this;
         $this->startTime = defined('TURBO_START') ? TURBO_START : microtime(true);
         $this->container = new Container();
-        $this->loadEnvironment();
-        $this->loadConfiguration();
+        
+        if (!$this->loadFromState()) {
+            $this->loadEnvironment();
+            $this->loadConfiguration();
+        }
+        
         $this->registerCoreServices();
     }
 
@@ -155,17 +160,22 @@ class Application
         }
     }
 
-    public function handle(): void
+    public function handle(?string $method = null, ?string $uri = null): \TurboFrame\Http\Response
     {
         $this->boot();
         
         $router = $this->container->make(Router::class);
         $response = $router->dispatch(
-            $_SERVER['REQUEST_METHOD'] ?? 'GET',
-            $_SERVER['REQUEST_URI'] ?? '/'
+            $method ?? $_SERVER['REQUEST_METHOD'] ?? 'GET',
+            $uri ?? $_SERVER['REQUEST_URI'] ?? '/'
         );
 
-        $response->send();
+        return $response;
+    }
+
+    public function run(): void
+    {
+        $this->handle()->send();
     }
 
     public function env(string $key, mixed $default = null): mixed
@@ -211,5 +221,31 @@ class Application
     public function basePath(string $path = ''): string
     {
         return BASE_PATH . ($path ? '/' . ltrim($path, '/') : '');
+    }
+
+    private function loadFromState(): bool
+    {
+        if (self::$stateLoaded) return true;
+
+        $statePath = BASE_PATH . '/storage/nitrous/state.php';
+        if (file_exists($statePath)) {
+            $state = require $statePath;
+            
+            // Restore Env
+            foreach ($state['env'] as $key => $value) {
+                $_ENV[$key] = $value;
+                putenv("$key=$value");
+            }
+            self::$envCache = $state['env'];
+
+            // Restore Config
+            $this->config = $state['config'];
+            self::$configCache = $this->config;
+
+            self::$stateLoaded = true;
+            return true;
+        }
+
+        return false;
     }
 }

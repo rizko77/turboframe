@@ -8,6 +8,7 @@ use TurboFrame\Core\Application;
 class Router
 {
     private array $routes = [];
+    private array $staticRoutes = [];
     private array $namedRoutes = [];
     private array $groupStack = [];
     private array $middlewareGroups = [];
@@ -81,8 +82,14 @@ class Router
 
         $route = new Route($methods, $uri, $action, $middleware, $namespace);
         
+        $isStatic = !str_contains($uri, '{');
+
         foreach ($methods as $method) {
-            $this->routes[$method][] = $route;
+            if ($isStatic) {
+                $this->staticRoutes[$method][$uri] = $route;
+            } else {
+                $this->routes[$method][] = $route;
+            }
         }
 
         return $route;
@@ -125,16 +132,20 @@ class Router
     {
         $method = strtoupper($method);
         $uri = parse_url($uri, PHP_URL_PATH);
-        $uri = $uri === '' ? '/' : $uri;
+        $uri = ($uri === '' || $uri === null) ? '/' : $uri;
 
-        if (!isset($this->routes[$method])) {
-            return $this->notFound();
+        // 1. Fast Static Lookup
+        if (isset($this->staticRoutes[$method][$uri])) {
+            return $this->runRoute($this->staticRoutes[$method][$uri], []);
         }
 
-        foreach ($this->routes[$method] as $route) {
-            $params = $route->match($uri);
-            if ($params !== false) {
-                return $this->runRoute($route, $params);
+        // 2. Dynamic Regex Match
+        if (isset($this->routes[$method])) {
+            foreach ($this->routes[$method] as $route) {
+                $params = $route->match($uri);
+                if ($params !== false) {
+                    return $this->runRoute($route, $params);
+                }
             }
         }
 
